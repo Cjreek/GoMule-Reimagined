@@ -95,6 +95,9 @@ public class D2ImageCache {
         // hardcoded exceptions
         if (pItem.getItem_type().equals("kch")) // keychain
             image = "invkey";
+        if (pItem.getItemName().equals("ÿc4Nightshade") && pItem.isUnique()) {
+            image = "invch6";
+        }
 
         return getDC6Image(image + ".dc6");
     }
