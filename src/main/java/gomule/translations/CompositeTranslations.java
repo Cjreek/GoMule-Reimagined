@@ -15,9 +15,9 @@ public class CompositeTranslations implements Translations {
 
     @Nullable
     @Override
-    public String getTranslationOrNull(String key) {
+    public String getTranslationOrNull(String key, String name) {
         return Arrays.stream(translations)
-                .map(it -> it.getTranslationOrNull(key))
+                .map(it -> it.getTranslationOrNull(key, name))
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);

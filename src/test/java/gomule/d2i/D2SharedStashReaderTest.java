@@ -31,18 +31,18 @@ public class D2SharedStashReaderTest {
         assertTrue(stash.isSC());
         assertFalse(stash.isHC());
         assertEquals(
-                singletonList("Scroll of Town Portal\n" + "Version: Resurrected\n"), getItemDumps(stash.getPane(0)));
-        assertEquals(singletonList("Scroll of Identify\n" + "Version: Resurrected\n"), getItemDumps(stash.getPane(1)));
+                singletonList("TP\n" + "Version: Resurrected\n"), getItemDumps(stash.getPane(0)));
+        assertEquals(singletonList("ID\n" + "Version: Resurrected\n"), getItemDumps(stash.getPane(1)));
         assertEquals(emptyList(), getItemDumps(stash.getPane(2)));
         StringWriter out = new StringWriter();
         stash.fullDump(new PrintWriter(out));
         assertEquals(
                 "somethingSoftCore.d2i\n" + "\n"
                         + "\n"
-                        + "Scroll of Town Portal\n"
+                        + "TP\n"
                         + "Version: Resurrected\n"
                         + "\n"
-                        + "Scroll of Identify\n"
+                        + "ID\n"
                         + "Version: Resurrected\n"
                         + "Finished: somethingSoftCore.d2i\n\n",
                 out.toString().replaceAll("\r", ""));

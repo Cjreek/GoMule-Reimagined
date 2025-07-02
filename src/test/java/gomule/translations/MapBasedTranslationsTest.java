@@ -16,7 +16,7 @@ class MapBasedTranslationsTest {
         Translations expected = new MapBasedTranslations(ImmutableMap.of(
                 "ModStr4l", "Slightly Increased Attack Speed", "ModStr4n", "Greatly Increased Attack Speed"));
         assertEquals(expected, actual);
-        assertNull(actual.getTranslationOrNull("missing-key"));
-        assertEquals("Greatly Increased Attack Speed", actual.getTranslationOrNull("ModStr4n"));
+        assertNull(actual.getTranslationOrNull("missing-key", "no-name"));
+        assertEquals("Greatly Increased Attack Speed", actual.getTranslationOrNull("ModStr4n", ""));
     }
 }

@@ -21,7 +21,7 @@ public class D2SharedStashTest {
                 mockItem(0, 0, 5, 5),
                 mockItem(9, 9, 1, 1)
         );
-        D2Item[][] expectedGrid = new D2Item[10][10];
+        D2Item[][] expectedGrid = new D2Item[16][13];
         expectedGrid[0][0] = items.get(0);
         expectedGrid[1][0] = items.get(0);
         expectedGrid[2][0] = items.get(0);
@@ -97,7 +97,7 @@ public class D2SharedStashTest {
         assertTrue(d2SharedStashPane.canDropItem(5, 0, items.get(1)));
         assertFalse(d2SharedStashPane.canDropItem(4, 0, items.get(1)));
         assertFalse(d2SharedStashPane.canDropItem(6, 7, items.get(1)));
-        assertFalse(d2SharedStashPane.canDropItem(9, 9, items.get(1)));
+        assertFalse(d2SharedStashPane.canDropItem(15, 12, items.get(1)));
         assertFalse(d2SharedStashPane.canDropItem(20, 20, items.get(1)));
     }
 

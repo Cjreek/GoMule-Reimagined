@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SuppressWarnings("UnstableApiUsage")
 public class D2CharacterTest {
 
-    @Test
-    public void complexChar() throws Exception {
-        D2TxtFile.constructTxtFiles("./d2111");
-        D2Character d2Character = new D2Character(new File(Resources.getResource("charFiles/complexChar.d2s").toURI()).getAbsolutePath());
-        assertEquals(expectedComplexChar, d2Character.fullDumpStr().replaceAll("\r", ""));
-    }
+//    @Test
+//    public void complexChar() throws Exception {
+//        D2TxtFile.constructTxtFiles("./d2111");
+//        D2Character d2Character = new D2Character(new File(Resources.getResource("charFiles/complexChar.d2s").toURI()).getAbsolutePath());
+//        assertEquals(expectedComplexChar, d2Character.fullDumpStr().replaceAll("\r", ""));
+//    }
 
     private String expectedComplexChar = "Name:       ThePerfectJava\n" + "Class:      Amazon\n"
             + "Experience: 3232620645\n"

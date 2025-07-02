@@ -28,7 +28,7 @@ class SharedStashPanelMouseClickHandler extends MouseAdapter {
         if (sharedStash == null) return;
         int col = SharedStashPanel.getColForXCoord(e.getX());
         int row = SharedStashPanel.getRowForYCoord(e.getY());
-        if (col < 0 || row < 0 || col > 9 || row > 9) return;
+        if (col < 0 || row < 0 || col > 15 || row > 12) return;
         D2SharedStash.D2SharedStashPane stashPane = sharedStashPanel.getSelectedStashPane();
         D2Item item = stashPane.getItemCovering(col, row);
         if (item != null) {
@@ -49,7 +49,7 @@ class SharedStashPanelMouseClickHandler extends MouseAdapter {
 
         int col = SharedStashPanel.getColForXCoord(e.getX());
         int row = SharedStashPanel.getRowForYCoord(e.getY());
-        if (col < 0 || row < 0 || col > 9 || row > 9) return;
+        if (col < 0 || row < 0 || col > 15 || row > 12) return;
         D2SharedStash.D2SharedStashPane stashPane = sharedStashPanel.getSelectedStashPane();
         D2Item item = stashPane.getItemCovering(col, row);
         if (item != null) {
@@ -60,7 +60,7 @@ class SharedStashPanelMouseClickHandler extends MouseAdapter {
     }
 
     private boolean isClickOnGoldButton(int x, int y) {
-        return x >= 120 && x <= 240 && y >= 394 && y <= 431;
+        return x >= 222 && x <= 243 && y >= 500 && y <= 522;
     }
 
     private void showGoldDialog() {
@@ -100,10 +100,16 @@ class SharedStashPanelMouseClickHandler extends MouseAdapter {
     }
 
     private Integer getPossibleStashTabClick(int x, int y) {
-        if (x >= 26 && x <= 258 && y >= 50 && y <= 72) {
-            if (x <= 103) return 0;
-            if (x <= 181) return 1;
-            return 2;
+        int paneCount = this.sharedStashPanel.getSharedStash().getPanes().size();
+
+        if (x >= 27 && x <= 462 && y >= 51 && y <= 72) {
+            if ((x <= 87) && (paneCount >= 1)) return 0;
+            if ((x <= 150) && (paneCount >= 2)) return 1;
+            if ((x <= 212) && (paneCount >= 3)) return 2;
+            if ((x <= 275) && (paneCount >= 4)) return 3;
+            if ((x <= 337) && (paneCount >= 5)) return 4;
+            if ((x <= 400) && (paneCount >= 6)) return 5;
+            if (paneCount >= 7) return 6;
         }
         return null;
     }

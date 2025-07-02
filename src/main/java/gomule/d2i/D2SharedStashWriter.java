@@ -28,9 +28,9 @@ public class D2SharedStashWriter {
     public void write(D2SharedStash stash) {
         D2BitReader bitReader = new D2BitReader(originalContent.clone());
         int[] stashHeaderOffsets = bitReader.findBytes(STASH_HEADER_START);
-        if (stashHeaderOffsets.length != 3) throw new RuntimeException("Stash unsupported");
+        if (stashHeaderOffsets.length > 7) throw new RuntimeException("Stash unsupported");
         List<byte[]> stashPanes = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < stash.getPanes().size(); i++) {
             stashPanes.add(writeStashPane(stash.getPane(i), bitReader, stashHeaderOffsets[i], bitReader.findNextFlag("JM", stashHeaderOffsets[i])));
         }
         writeToFile(stashPanes);

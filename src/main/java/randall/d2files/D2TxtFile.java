@@ -294,6 +294,29 @@ public final class D2TxtFile {
         return null;
     }
 
+    public D2TxtFileItemProperties searchByID(int id) {
+        if (iData == null) {
+            readInData();
+        }
+
+        if (id >= iData.length)
+            return null;
+
+        for (int i=0; i < iData.length; i++) {
+            if (iData[i][0].equals("Expansion")) {
+                if (id < i)
+                    return new D2TxtFileItemProperties(this, id);
+
+                if (id + 1 < iData.length)
+                    return new D2TxtFileItemProperties(this, id + 1);
+
+                return null;
+            }
+        }
+
+        return null;
+    }
+
     public ArrayList searchColumnsMultipleHits(String pCol, String pText) {
         ArrayList hits = new ArrayList();
         int lColNr = getCol(pCol);

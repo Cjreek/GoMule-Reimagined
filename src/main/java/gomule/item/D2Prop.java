@@ -342,6 +342,10 @@ public class D2Prop {
                 return "+" + pVals[1] + " to " + getSkillTree(pVals[0]);
 
             case (15):
+                // TODO: Error in reimagined, remove when fixed
+                if (dispLoc == 0)
+                    return oString;
+                // -----
 
                 oString = oString.replaceFirst("%d%", Integer.toString(pVals[2]));
                 oString = oString.replaceAll("%d", Integer.toString(pVals[0]));
@@ -392,11 +396,11 @@ public class D2Prop {
                 if (matchingPropsRecords.isEmpty()) {
                     if (oString.equals("Indestructible")) {
                         matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "indestruct"));
-                    } else if (oString.equals("%+d%% Enhanced Maximum Damage")) {
+                    } else if (oString.equals("%+d%% Enhanced Maximum Weapon Damage")) {
                         matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg%"));
-                    } else if (oString.equals("%+d to Maximum Damage")) {
+                    } else if (oString.equals("%+d to Maximum Weapon Damage")) {
                         matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg-max"));
-                    } else if (oString.equals("%+d to Minimum Damage")) {
+                    } else if (oString.equals("%+d to Minimum Weapon Damage")) {
                         matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg-min"));
                     } else {
                         return "Unknown property";
@@ -569,7 +573,7 @@ public class D2Prop {
                 }
         }
 
-        return "Unrecognized property: " + this.pNum;
+        return "";// "Unrecognized property: " + this.pNum;
     }
 
     public void applyOp(int cLvl) {

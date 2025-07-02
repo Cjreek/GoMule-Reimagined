@@ -90,7 +90,13 @@ public class D2ImageCache {
     }
 
     public static Image getDC6Image(D2Item pItem) {
-        return getDC6Image(pItem.get_image() + ".dc6");
+        String image = pItem.get_image();
+
+        // hardcoded exceptions
+        if (pItem.getItem_type().equals("kch")) // keychain
+            image = "invkey";
+
+        return getDC6Image(image + ".dc6");
     }
 
     public static Image getDC6Image(String pFileName) {

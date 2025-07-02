@@ -68,13 +68,13 @@ public class D2Character extends D2ItemListAdapter {
     public static final int GOLEM_SLOT = 23;
 
     public static final int INVSIZEX = 10;
-    public static final int INVSIZEY = 4;
-    public static final int STASHSIZEX = 10;
-    public static final int STASHSIZEY = 10;
+    public static final int INVSIZEY = 8;
+    public static final int STASHSIZEX = 16;
+    public static final int STASHSIZEY = 13;
     public static final int BELTSIZEX = 4;
     public static final int BELTSIZEY = 4;
-    public static final int CUBESIZEX = 3;
-    public static final int CUBESIZEY = 4;
+    public static final int CUBESIZEX = 16;
+    public static final int CUBESIZEY = 13;
     D2TxtFileItemProperties mercHireCol;
     private D2BitReader iReader;
     private ArrayList iCharItems;
@@ -108,7 +108,7 @@ public class D2Character extends D2ItemListAdapter {
 //	private boolean fullChanged = false;
 //	private ArrayList partialSetProps = new ArrayList();
 //	private ArrayList fullSetProps = new ArrayList();
-    private int[][] setTracker = new int[33][2];
+    private int[][] setTracker;
     private ArrayList plSkill;
     private long[] iReadStats = new long[16];
     private int[] cStats = new int[31];
@@ -133,6 +133,7 @@ public class D2Character extends D2ItemListAdapter {
             throw new Exception("Incorrect Character file name");
         iCharItems = new ArrayList();
         iMercItems = new ArrayList();
+        setTracker = new int[D2TxtFile.FULLSET.getRowSize()][2];
         iReader = new D2BitReader(iFileName);
         readChar();
         // clear status
@@ -816,12 +817,12 @@ public class D2Character extends D2ItemListAdapter {
                 int location = (int) i.get_location();
                 if (location == 2) {
                     col = (int) i.get_col();
-                    row = col / 4;
-                    col = col % 4;
+                    row = col / BELTSIZEX;
+                    col = col % BELTSIZEX;
                     width = (int) i.get_width();
                     height = (int) i.get_height();
-                    if ((row + height) > 4) return false;
-                    if ((col + width) > 4) return false;
+                    if ((row + height) > BELTSIZEY) return false;
+                    if ((col + width) > BELTSIZEX) return false;
                     for (j = row; j < row + height; j++) {
                         for (k = col; k < col + width; k++) iBeltGrid[j][k] = true;
                     }
@@ -841,8 +842,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 4) return false;
-                if ((col + width) > 10) return false;
+                if ((row + height) > INVSIZEY) return false;
+                if ((col + width) > INVSIZEX) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++) iInventoryGrid[j][k] = true;
                 }
@@ -852,8 +853,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 4) return false;
-                if ((col + width) > 3) return false;
+                if ((row + height) > CUBESIZEY) return false;
+                if ((col + width) > CUBESIZEX) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++) iCubeGrid[j][k] = true;
                 }
@@ -863,8 +864,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 10) return false;
-                if ((col + width) > 10) return false;
+                if ((row + height) > STASHSIZEY) return false;
+                if ((col + width) > STASHSIZEX) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++) iStashGrid[j][k] = true;
                 }
@@ -909,8 +910,8 @@ public class D2Character extends D2ItemListAdapter {
 
     public ArrayList getBeltPotions() {
         ArrayList lList = new ArrayList();
-        for (int i = 0; i < 4; i++) {
-            for (int j = 1; j < 4; j++) {
+        for (int i = 0; i < BELTSIZEY; i++) {
+            for (int j = 1; j < BELTSIZEX; j++) {
                 int y = getCharItemIndex(2, i, j);
                 if (y != -1) lList.add((D2Item) iCharItems.get(y));
             }
@@ -927,12 +928,12 @@ public class D2Character extends D2ItemListAdapter {
                 // on the belt
                 if (location == 2) {
                     col = (int) i.get_col();
-                    row = col / 4;
-                    col = col % 4;
+                    row = col / BELTSIZEX;
+                    col = col % BELTSIZEX;
                     width = (int) i.get_width();
                     height = (int) i.get_height();
-                    if ((row + height) > 4) return false;
-                    if ((col + width) > 4) return false;
+                    if ((row + height) > BELTSIZEY) return false;
+                    if ((col + width) > BELTSIZEX) return false;
                     for (j = row; j < row + height; j++) {
                         for (k = col; k < col + width; k++) iBeltGrid[j][k] = false;
                     }
@@ -948,8 +949,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 4) return false;
-                if ((col + width) > 10) return false;
+                if ((row + height) > INVSIZEY) return false;
+                if ((col + width) > INVSIZEX) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++) iInventoryGrid[j][k] = false;
                 }
@@ -959,8 +960,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 4) return false;
-                if ((col + width) > 3) return false;
+                if ((row + height) > CUBESIZEY) return false;
+                if ((col + width) > CUBESIZEX) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++) iCubeGrid[j][k] = false;
                 }
@@ -970,8 +971,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 10) return false;
-                if ((col + width) > 10) return false;
+                if ((row + height) > STASHSIZEY) return false;
+                if ((col + width) > STASHSIZEX) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++)
                         iStashGrid[j][k] = false;
@@ -1207,6 +1208,24 @@ public class D2Character extends D2ItemListAdapter {
                     break;
                 case BODY_RARM:
                     if (pItem.isBodyLocation(D2BodyLocations.BODY_RARM)) return false;
+                    break;
+                case BODY_GLOVES:
+                    if (pItem.isBodyLocation(D2BodyLocations.BODY_GLOV)) return false;
+                    break;
+                case BODY_BOOTS:
+                    if (pItem.isBodyLocation(D2BodyLocations.BODY_FEET)) return false;
+                    break;
+                case BODY_BELT:
+                    if (pItem.isBodyLocation(D2BodyLocations.BODY_BELT)) return false;
+                    break;
+                case BODY_NECK:
+                    if (pItem.isBodyLocation(D2BodyLocations.BODY_NECK)) return false;
+                    break;
+                case BODY_LRING:
+                    if (pItem.isBodyLocation(D2BodyLocations.BODY_LRIN)) return false;
+                    break;
+                case BODY_RRING:
+                    if (pItem.isBodyRRin()) return false;
                     break;
             }
             return true;
@@ -1977,10 +1996,10 @@ public class D2Character extends D2ItemListAdapter {
                         "Stamina:    " + getCharInitStam() + "/" + getCharStam() + "\n" +
                         "Defense:    " + getCharInitDef() + "/" + getCharDef() + "\n" +
                         "AR:         " + getCharInitAR() + "/" + getCharAR() + "\n" + "\n" +
-                        "Fire:       " + getCharFireRes() + "/" + (getCharFireRes() - 40) + "/" + (getCharFireRes() - 100) + "\n" +
-                        "Cold:       " + getCharColdRes() + "/" + (getCharColdRes() - 40) + "/" + (getCharColdRes() - 100) + "\n" +
-                        "Lightning:  " + getCharLightRes() + "/" + (getCharLightRes() - 40) + "/" + (getCharLightRes() - 100) + "\n" +
-                        "Poison:     " + getCharPoisRes() + "/" + (getCharPoisRes() - 40) + "/" + (getCharPoisRes() - 100) + "\n" + "\n" +
+                        "Fire:       " + getCharFireRes() + "/" + (getCharFireRes() - 40) + "/" + (getCharFireRes() - 120) + "\n" +
+                        "Cold:       " + getCharColdRes() + "/" + (getCharColdRes() - 40) + "/" + (getCharColdRes() - 120) + "\n" +
+                        "Lightning:  " + getCharLightRes() + "/" + (getCharLightRes() - 40) + "/" + (getCharLightRes() - 120) + "\n" +
+                        "Poison:     " + getCharPoisRes() + "/" + (getCharPoisRes() - 40) + "/" + (getCharPoisRes() - 120) + "\n" + "\n" +
                         "MF:         " + getCharMF() + "       Block:      " + getCharBlock() + "\n" +
                         "GF:         " + getCharGF() + "       FR/W:       " + getCharFRW() + "\n" +
                         "FHR:        " + getCharFHR() + "       IAS:        " + getCharIAS() + "\n" +
@@ -2001,10 +2020,10 @@ public class D2Character extends D2ItemListAdapter {
                     "HP:         " + getMercInitHP() + "/" + getMercHP() + "\n" +
                     "Defense:    " + getMercInitDef() + "/" + getMercDef() + "\n" +
                     "AR:         " + getMercInitAR() + "/" + getMercAR() + "\n" + "\n" +
-                    "Fire:       " + getMercFireRes() + "/" + (getMercFireRes() - 40) + "/" + (getMercFireRes() - 100) + "\n" +
-                    "Cold:       " + getMercColdRes() + "/" + (getMercColdRes() - 40) + "/" + (getMercColdRes() - 100) + "\n" +
-                    "Lightning:  " + getMercLightRes() + "/" + (getMercLightRes() - 40) + "/" + (getMercLightRes() - 100) + "\n" +
-                    "Poison:     " + getMercPoisRes() + "/" + (getMercPoisRes() - 40) + "/" + (getMercPoisRes() - 100);
+                    "Fire:       " + getMercFireRes() + "/" + (getMercFireRes() - 40) + "/" + (getMercFireRes() - 120) + "\n" +
+                    "Cold:       " + getMercColdRes() + "/" + (getMercColdRes() - 40) + "/" + (getMercColdRes() - 120) + "\n" +
+                    "Lightning:  " + getMercLightRes() + "/" + (getMercLightRes() - 40) + "/" + (getMercLightRes() - 120) + "\n" +
+                    "Poison:     " + getMercPoisRes() + "/" + (getMercPoisRes() - 40) + "/" + (getMercPoisRes() - 120);
         } else {
             return "";
         }

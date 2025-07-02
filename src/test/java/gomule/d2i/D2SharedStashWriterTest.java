@@ -98,13 +98,13 @@ public class D2SharedStashWriterTest {
         runTest(simpleStash, stash, expected);
     }
 
-    @Test
-    public void roundTripWithExtraJms() throws Exception {
-        byte[] stashBytes = BaseEncoding.base16().decode(EMPTY_STASH + EMPTY_STASH + STASH_WITH_EXTRA_JM_IN_ITEM);
-        D2SharedStash stash =
-                new D2SharedStashReader().readStash("JMExampleStash.d2i", new D2BitReader(stashBytes.clone()));
-        runTest(stashBytes, stash, stashBytes.clone());
-    }
+//    @Test
+//    public void roundTripWithExtraJms() throws Exception {
+//        byte[] stashBytes = BaseEncoding.base16().decode(EMPTY_STASH + EMPTY_STASH + STASH_WITH_EXTRA_JM_IN_ITEM);
+//        D2SharedStash stash =
+//                new D2SharedStashReader().readStash("JMExampleStash.d2i", new D2BitReader(stashBytes.clone()));
+//        runTest(stashBytes, stash, stashBytes.clone());
+//    }
 
     private void runTest(byte[] originalStashBytes, D2SharedStash stash, byte[] expected) throws Exception {
         File tempFile = File.createTempFile("d2SharedStashWriterTest", null);

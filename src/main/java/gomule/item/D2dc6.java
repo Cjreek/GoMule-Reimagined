@@ -26,6 +26,7 @@ import gomule.util.D2Palette;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class D2dc6 {
 
@@ -36,6 +37,9 @@ public class D2dc6 {
     public D2dc6(String f) {
 //        filename = f;
         br = new D2BitReader(f);
+        if (br.get_length() == 0) {
+            br = new D2BitReader("resources" + File.separator + "gfx" + File.separator + "invsple.dc6");
+        }
     }
 
     public void load_file() {

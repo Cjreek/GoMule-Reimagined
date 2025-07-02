@@ -40,16 +40,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
      *
      */
     private static final long serialVersionUID = -7350581523641897831L;
-    private static final int BG_WIDTH = 616;
-    private static final int BG_HEIGHT = 418;
+    private static final int BG_WIDTH = 790;
+    private static final int BG_HEIGHT = 574;
     private static final int BG_MERC_WIDTH = 323;
-    private static final int BG_MERC_HEIGHT = 187;
+    private static final int BG_MERC_HEIGHT = 251;
     private static final int BG_CURSOR_WIDTH = 78;
     private static final int BG_CURSOR_HEIGHT = 135;
-    private static final int STASH_X = 326;
-    private static final int STASH_Y = 3;
+    private static final int STASH_X = 325;
+    private static final int STASH_Y = 45;
     private static final int INV_X = 18;
-    private static final int INV_Y = 299;
+    private static final int INV_Y = 338;
     private static final int HEAD_X = 135;
     private static final int HEAD_Y = 3;
     private static final int NECK_X = 205;
@@ -70,14 +70,45 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private static final int L_RING_Y = 175;
     private static final int R_RING_X = 205;
     private static final int R_RING_Y = 175;
-    private static final int BELT_GRID_X = 499;
-    private static final int BELT_GRID_Y = 299;
-    private static final int CUBE_X = 326;
-    private static final int CUBE_Y = 299;
+    private static final int BELT_GRID_X = 105;
+    private static final int BELT_GRID_Y = 215;
+    private static final int CUBE_X = 325;
+    private static final int CUBE_Y = 45;
     private static final int GRID_SIZE = 28;
     private static final int GRID_SPACER = 1;
     private static final int CURSOR_X = 12;
     private static final int CURSOR_Y = 14;
+
+    private static final int MERC_HEAD_X = 134;
+    private static final int MERC_HEAD_Y = 30;
+    private static final int MERC_BODY_X = 134;
+    private static final int MERC_BODY_Y = 96;
+    private static final int MERC_R_ARM_X = 30;
+    private static final int MERC_R_ARM_Y = 42;
+    private static final int MERC_L_ARM_X = 240;
+    private static final int MERC_L_ARM_Y = 42;
+    private static final int MERC_NECK_X = 200;
+    private static final int MERC_NECK_Y = 76;
+    private static final int MERC_L_RING_X = 96;
+    private static final int MERC_L_RING_Y = 192;
+    private static final int MERC_R_RING_X = 200;
+    private static final int MERC_R_RING_Y = 192;
+    private static final int MERC_BELT_X = 134;
+    private static final int MERC_BELT_Y = 192;
+    private static final int MERC_GLOVES_X = 30;
+    private static final int MERC_GLOVES_Y = 164;
+    private static final int MERC_BOOTS_X = 240;
+    private static final int MERC_BOOTS_Y = 164;
+
+    private static final int STASH_SIZE_X = 16;
+    private static final int STASH_SIZE_Y = 13;
+    private static final int CUBE_SIZE_X = 16;
+    private static final int CUBE_SIZE_Y = 13;
+    private static final int INV_SIZE_X = 10;
+    private static final int INV_SIZE_Y = 8;
+    private static final int BELT_GRID_SIZE_X = 4;
+    private static final int BELT_GRID_SIZE_Y = 4;
+
     private D2CharPainterPanel iCharPainter;
     private D2MercPainterPanel iMercPainter;
     private D2CharCursorPainterPanel iCharCursorPainter;
@@ -90,6 +121,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
     private int iWeaponSlot = 1;
     private int iSkillSlot = 0;
+    private boolean iShowCube = false;
 
     private JTextField iGold;
     private JTextField iGoldBank;
@@ -744,7 +776,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
             int x = pEvent.getX();
             int y = pEvent.getY();
 
-            iPanel = getMousePanel(x, y);
+            if (!pIsChar && !pIsCorpse && !pIsCursor)
+                iPanel = getMousePanelMerc(x,y);
+            else
+                iPanel = getMousePanel(x, y);
             setRowCol(x, y);
         }
 
@@ -796,6 +831,65 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
             return iCharacter.getMercItem(iCharacter.getMercItemIndex(iPanel, iRow, iCol));
         }
 
+        private int getMousePanelMerc(int x, int y) {
+            if (iIsCursor) {
+                if (iIsChar && x >= CURSOR_X && x < CURSOR_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= CURSOR_Y && y < CURSOR_Y + 4 * GRID_SIZE + 4 * GRID_SPACER) {
+                    return D2Character.BODY_CURSOR;
+                }
+                return -1;
+            }
+
+            if (x >= MERC_HEAD_X && x < MERC_HEAD_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= MERC_HEAD_Y && y < MERC_HEAD_Y + 2 * GRID_SIZE + 2 * GRID_SPACER) {
+                return D2Character.BODY_HEAD;
+            }
+            if (x >= MERC_NECK_X && x < MERC_NECK_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= MERC_NECK_Y && y < MERC_NECK_Y + 1 * GRID_SIZE + 1 * GRID_SPACER) {
+                return D2Character.BODY_NECK;
+            }
+
+            if (x >= MERC_L_ARM_X && x < MERC_L_ARM_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= MERC_L_ARM_Y && y < MERC_L_ARM_Y + 4 * GRID_SIZE + 4 * GRID_SPACER) {
+                if ((!iIsChar && !iIsCorpse) || iWeaponSlot == 1) {
+                    // merc
+                    return D2Character.BODY_LARM;
+                } else {
+                    return D2Character.BODY_LARM2;
+                }
+            }
+
+            if ((!iIsChar && !iIsCorpse) && x >= 258 && x <= 314 && y >= 223 && y <= 335) {
+                return 1337;
+            }
+
+            if (x >= MERC_R_ARM_X && x < MERC_R_ARM_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= MERC_R_ARM_Y && y < MERC_R_ARM_Y + 4 * GRID_SIZE + 4 * GRID_SPACER) {
+                if ((!iIsChar && !iIsCorpse) || iWeaponSlot == 1) {
+                    // merc
+                    return D2Character.BODY_RARM;
+                } else {
+                    return D2Character.BODY_RARM2;
+                }
+            }
+
+            if (x >= MERC_BODY_X && x < MERC_BODY_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= MERC_BODY_Y && y < MERC_BODY_Y + 3 * GRID_SIZE + 3 * GRID_SPACER) {
+                return D2Character.BODY_TORSO;
+            }
+            if (x >= MERC_GLOVES_X && x < MERC_GLOVES_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= MERC_GLOVES_Y && y < MERC_GLOVES_Y + 2 * GRID_SIZE + 2 * GRID_SPACER) {
+                return D2Character.BODY_GLOVES;
+            }
+            if (x >= MERC_BELT_X && x < MERC_BELT_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= MERC_BELT_Y && y < MERC_BELT_Y + 1 * GRID_SIZE + 1 * GRID_SPACER) {
+                return D2Character.BODY_BELT;
+            }
+            if (x >= MERC_BOOTS_X && x < MERC_BOOTS_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= MERC_BOOTS_Y && y < MERC_BOOTS_Y + 2 * GRID_SIZE + 2 * GRID_SPACER) {
+                return D2Character.BODY_BOOTS;
+            }
+            if (x >= MERC_L_RING_X && x < MERC_L_RING_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= MERC_L_RING_Y && y < MERC_L_RING_Y + 1 * GRID_SIZE + 1 * GRID_SPACER) {
+                return D2Character.BODY_LRING;
+            }
+            if (x >= MERC_R_RING_X && x < MERC_R_RING_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= MERC_R_RING_Y && y < MERC_R_RING_Y + 1 * GRID_SIZE + 1 * GRID_SPACER) {
+                return D2Character.BODY_RRING;
+            }
+
+            return -1;
+        }
+
         // calculate which panel (stash, inventory, equipment slot, etc)
         // the coordinates x and y lie in
         // belt_grid = panel 2
@@ -808,16 +902,17 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                 }
                 return -1;
             }
-            if (iIsChar && x >= STASH_X && x < STASH_X + 10 * GRID_SIZE + 10 * GRID_SPACER && y >= STASH_Y && y < STASH_Y + 10 * GRID_SIZE + 10 * GRID_SPACER) {
+
+            if (!iShowCube && iIsChar && x >= STASH_X && x < STASH_X + STASH_SIZE_X * GRID_SIZE + STASH_SIZE_X * GRID_SPACER && y >= STASH_Y && y < STASH_Y + STASH_SIZE_Y * GRID_SIZE + STASH_SIZE_Y * GRID_SPACER) {
                 return D2Character.BODY_STASH_CONTENT;
             }
-            if (iIsChar && x >= BELT_GRID_X && x < BELT_GRID_X + 4 * GRID_SIZE + 4 * GRID_SPACER && y >= BELT_GRID_Y && y < BELT_GRID_Y + 4 * GRID_SIZE + 4 * GRID_SPACER) {
+            if (iIsChar && x >= BELT_GRID_X && x < BELT_GRID_X + BELT_GRID_SIZE_X * GRID_SIZE + BELT_GRID_SIZE_X * GRID_SPACER && y >= BELT_GRID_Y && y < BELT_GRID_Y + BELT_GRID_SIZE_Y * GRID_SIZE + BELT_GRID_SIZE_Y * GRID_SPACER) {
                 return D2Character.BODY_BELT_CONTENT;
             }
-            if (iIsChar && x >= INV_X && x < INV_X + 10 * GRID_SIZE + 10 * GRID_SPACER && y >= INV_Y && y < INV_Y + 4 * GRID_SIZE + 4 * GRID_SPACER) {
+            if (iIsChar && x >= INV_X && x < INV_X + INV_SIZE_X * GRID_SIZE + INV_SIZE_X * GRID_SPACER && y >= INV_Y && y < INV_Y + INV_SIZE_Y * GRID_SIZE + INV_SIZE_Y * GRID_SPACER) {
                 return D2Character.BODY_INV_CONTENT;
             }
-            if (iIsChar && x >= CUBE_X && x < CUBE_X + 3 * GRID_SIZE + 3 * GRID_SPACER && y >= CUBE_Y && y < INV_Y + 4 * GRID_SIZE + 4 * GRID_SPACER) {
+            if (iShowCube && iIsChar && x >= CUBE_X && x < CUBE_X + CUBE_SIZE_X * GRID_SIZE + CUBE_SIZE_X * GRID_SPACER && y >= CUBE_Y && y < CUBE_Y + CUBE_SIZE_Y * GRID_SIZE + CUBE_SIZE_Y * GRID_SPACER) {
                 return D2Character.BODY_CUBE_CONTENT;
             }
             // merc & char
@@ -963,6 +1058,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                         } else if (((lX >= 51 && lX <= 80) || (lX >= 282 && lX <= 311)) && (lY >= 24 && lY <= 44)) {
                             setWeaponSlot(2);
                         }
+
+                        if ((lX >= 323 && lY >= 24) && (lX <= 396 && lY <= 43)) {
+                            iShowCube = false;
+                            build();
+                        } else if ((lX >= 401 && lY >= 24) && (lX <= 463 && lY <= 43)) {
+                            iShowCube = true;
+                            build();
+                        }
+
                         // determine where the mouse click is
                         D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, false, false);
                         if (lItemPanel.getPanel() != -1) {
@@ -1194,9 +1298,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         public void build() {
             Image lEmptyBackground;
             if (iWeaponSlot == 1) {
-                lEmptyBackground = D2ImageCache.getImage("background.png");
+                if (iShowCube)
+                    lEmptyBackground = D2ImageCache.getImage("background1c.png");
+                else
+                    lEmptyBackground = D2ImageCache.getImage("background1s.png");
             } else {
-                lEmptyBackground = D2ImageCache.getImage("background2.png");
+                if (iShowCube)
+                    lEmptyBackground = D2ImageCache.getImage("background2c.png");
+                else
+                    lEmptyBackground = D2ImageCache.getImage("background2s.png");
             }
 
             int lWidth = lEmptyBackground.getWidth(D2CharPainterPanel.this);
@@ -1234,11 +1344,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                 break;
                             // in the cube
                             case 4:
-                                lGraphics.drawImage(lImage, CUBE_X + x * GRID_SIZE + x * GRID_SPACER, CUBE_Y + y * GRID_SIZE + y * GRID_SPACER, D2CharPainterPanel.this);
+                                if (iShowCube) {
+                                    lGraphics.drawImage(lImage, CUBE_X + x * GRID_SIZE + x * GRID_SPACER, CUBE_Y + y * GRID_SIZE + y * GRID_SPACER, D2CharPainterPanel.this);
+                                }
                                 break;
                             // in the stash
                             case 5:
-                                lGraphics.drawImage(lImage, STASH_X + x * GRID_SIZE + x * GRID_SPACER, STASH_Y + y * GRID_SIZE + y * GRID_SPACER, D2CharPainterPanel.this);
+                                if (!iShowCube) {
+                                    lGraphics.drawImage(lImage, STASH_X + x * GRID_SIZE + x * GRID_SPACER, STASH_Y + y * GRID_SIZE + y * GRID_SPACER, D2CharPainterPanel.this);
+                                }
                                 break;
                         }
                     }
@@ -1506,12 +1620,12 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
         public void build() {
 
-            Image lEmptyBackground;
-            if (iCharacter != null && iCharacter.getCharClass().equals("Necromancer")) {
-                lEmptyBackground = D2ImageCache.getImage("merc.jpg");
-            } else {
-                lEmptyBackground = D2ImageCache.getImage("merc2.jpg");
-            }
+            Image lEmptyBackground = D2ImageCache.getImage("merc.png");
+//            if (iCharacter != null && iCharacter.getCharClass().equals("Necromancer")) {
+//                lEmptyBackground = D2ImageCache.getImage("merc.jpg");
+//            } else {
+//                lEmptyBackground = D2ImageCache.getImage("merc2.jpg");
+//            }
             int lWidth = lEmptyBackground.getWidth(D2MercPainterPanel.this);
             int lHeight = lEmptyBackground.getHeight(D2MercPainterPanel.this);
 
@@ -1534,11 +1648,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                         switch (body_position) {
                             // head (assume 2x2)
                             case 1:
-                                lGraphics.drawImage(lImage, HEAD_X, HEAD_Y, D2MercPainterPanel.this);
+                                lGraphics.drawImage(lImage, MERC_HEAD_X, MERC_HEAD_Y, D2MercPainterPanel.this);
                                 break;
+                            // Neck
+                            case 2:
+                                lGraphics.drawImage(lImage, MERC_NECK_X, MERC_NECK_Y, D2MercPainterPanel.this);
+                                break;
+                            // body (assume 2x3
                             case 3:
-                                // body (assume 2x3
-                                lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2MercPainterPanel.this);
+                                lGraphics.drawImage(lImage, MERC_BODY_X, MERC_BODY_Y, D2MercPainterPanel.this);
                                 break;
                             // right arm (give the whole 2x4)
                             // biases are to center non-2x4 items
@@ -1554,7 +1672,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                         hbias += GRID_SIZE / 2;
                                     else if (h == 2)
                                         hbias += GRID_SIZE;
-                                    lGraphics.drawImage(lImage, R_ARM_X + wbias, R_ARM_Y + hbias, D2MercPainterPanel.this);
+                                    lGraphics.drawImage(lImage, MERC_R_ARM_X + wbias, MERC_R_ARM_Y + hbias, D2MercPainterPanel.this);
                                 }
                                 break;
                             // left arm (give the whole 2x4)
@@ -1570,8 +1688,23 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                         hbias += GRID_SIZE / 2;
                                     else if (h == 2)
                                         hbias += GRID_SIZE;
-                                    lGraphics.drawImage(lImage, L_ARM_X + wbias, L_ARM_Y + hbias, D2MercPainterPanel.this);
+                                    lGraphics.drawImage(lImage, MERC_L_ARM_X + wbias, MERC_L_ARM_Y + hbias, D2MercPainterPanel.this);
                                 }
+                                break;
+                            case 6:
+                                lGraphics.drawImage(lImage, MERC_L_RING_X, MERC_L_RING_Y, D2MercPainterPanel.this);
+                                break;
+                            case 7:
+                                lGraphics.drawImage(lImage, MERC_R_RING_X, MERC_R_RING_Y, D2MercPainterPanel.this);
+                                break;
+                            case 8:
+                                lGraphics.drawImage(lImage, MERC_BELT_X, MERC_BELT_Y, D2MercPainterPanel.this);
+                                break;
+                            case 9:
+                                lGraphics.drawImage(lImage, MERC_BOOTS_X, MERC_BOOTS_Y, D2MercPainterPanel.this);
+                                break;
+                            case 10:
+                                lGraphics.drawImage(lImage, MERC_GLOVES_X, MERC_GLOVES_Y, D2MercPainterPanel.this);
                                 break;
                         }
                     }

@@ -64,7 +64,7 @@ task createDistribution {
 task distribution(type: Zip) {
     from 'build/tmp/distribution/'
     include 'GoMule/**'
-    archiveName 'GoMuleR4.4.20-BETA_Resurrected_2.7.zip'
+    archiveName 'GoMule_Reimagined_2.1.1.zip'
 }
 
 copyJarToDistribution.dependsOn jar

@@ -18,7 +18,7 @@ public class D2SharedStashReader {
 
     public D2SharedStash readStash(String filename, D2BitReader bitReader) throws Exception {
         int[] stashHeaderOffsets = bitReader.findBytes(STASH_HEADER_START);
-        if (stashHeaderOffsets.length != 3) throw new RuntimeException("Stash unsupported");
+        if (stashHeaderOffsets.length > 7) throw new RuntimeException("Stash unsupported");
         List<D2SharedStashPane> result = new ArrayList<>();
         for (int stashHeaderOffset : stashHeaderOffsets) {
             bitReader.set_byte_pos(stashHeaderOffset);

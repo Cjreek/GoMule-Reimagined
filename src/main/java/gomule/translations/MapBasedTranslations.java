@@ -1,10 +1,12 @@
 package gomule.translations;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.google.common.collect.ImmutableMap;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,19 +20,29 @@ public class MapBasedTranslations implements Translations {
 
     public static Translations loadTranslations(InputStream inputStream) {
         try {
-            ImmutableMap.Builder<String, String> mapBuilder = ImmutableMap.builder();
-            MAPPER.readTree(inputStream)
-                    .forEach(node -> mapBuilder.put(
-                            node.get("Key").textValue(), node.get("enUS").textValue()));
-            return new MapBasedTranslations(mapBuilder.build());
+
+            JsonNode jsonList = MAPPER.readTree(inputStream);
+            Map<String, String> tmpMap = new HashMap<>(jsonList.size());
+            jsonList.forEach(node -> {
+                if (tmpMap.containsKey(node.get("Key").textValue()))
+                    tmpMap.replace(node.get("Key").textValue(), node.get("enUS").textValue());
+                else
+                    tmpMap.put(node.get("Key").textValue(), node.get("enUS").textValue());
+            });
+
+            return new MapBasedTranslations(ImmutableMap.copyOf(tmpMap));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String getTranslationOrNull(String key) {
-        return translationData.get(key);
+    public String getTranslationOrNull(String key, String name) {
+        String translation = translationData.get(key);
+        if ((translation == null) && (name != null)) {
+            translation = translationData.get(name);
+        }
+        return translation;
     }
 
     @Override

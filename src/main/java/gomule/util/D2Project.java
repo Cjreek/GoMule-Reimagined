@@ -108,21 +108,21 @@ public class D2Project {
         RandallFileFilter lCharFilter = new RandallFileFilter(".d2s files");
         lCharFilter.addExtension("d2s");
         iCharDialog.setFileFilter(lCharFilter);
-        iCharDialog.setFileHidingEnabled(true);
+        iCharDialog.setFileHidingEnabled(false);
 
         String lStashDir = lLoadProperties.getProperty("StashDir", ".");
         iStashDialog = new JFileChooser(lStashDir);
         RandallFileFilter lStashFilter = new RandallFileFilter(".d2x files");
         lStashFilter.addExtension("d2x");
         iStashDialog.setFileFilter(lStashFilter);
-        iStashDialog.setFileHidingEnabled(true);
+        iStashDialog.setFileHidingEnabled(false);
 
         String lSharedStashDir = lLoadProperties.getProperty("SharedStashDir", ".");
         iSharedStashDialog = new JFileChooser(lSharedStashDir);
         RandallFileFilter lSharedStashFilter = new RandallFileFilter(".d2i files");
         lSharedStashFilter.addExtension("d2i");
         iSharedStashDialog.setFileFilter(lSharedStashFilter);
-        iSharedStashDialog.setFileHidingEnabled(true);
+        iSharedStashDialog.setFileHidingEnabled(false);
 
         boolean lLoading = true;
         iCharList.clear();

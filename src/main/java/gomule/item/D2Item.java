@@ -21,6 +21,7 @@
 
 package gomule.item;
 
+import com.google.common.primitives.Ints;
 import gomule.D2Files;
 import gomule.util.D2BitReader;
 import gomule.util.D2ItemException;
@@ -307,7 +308,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             }
         }
 
-        String lItemName = D2Files.getInstance().getTranslations().getTranslation(item_type);
+        String lItemName = D2Files.getInstance().getTranslations().getTranslation(item_type, iItemType.get("name"));
         if (lItemName != null) {
             iItemName = lItemName;
             iBaseItemName = iItemName;
@@ -604,8 +605,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                     image_file = s;
                 }
 
-                D2TxtFileItemProperties lUnique = D2TxtFile.UNIQUES
-                        .searchColumns("*ID", String.valueOf(unique_id));
+                D2TxtFileItemProperties lUnique = D2TxtFile.UNIQUES.searchByID(unique_id);
                 if (lUnique == null) break;
                 String lNewName = D2Files.getInstance().getTranslations().getTranslation(lUnique.get("index"));
                 if (lNewName != null) {
@@ -891,13 +891,17 @@ public class D2Item implements Comparable, D2ItemInterface {
             if ((D2TxtFile.MISC.searchColumns("code", item_type)).get(
                     statsToRead[x]).equals(""))
                 continue;
+
+            Integer statValue = Ints.tryParse(D2TxtFile.MISC.searchColumns("code", item_type).get(statsToRead[x].replaceFirst("stat", "calc")));
+            if (statValue == null)
+            {
+                statValue = 0;
+            }
+
             iProps.add(new D2Prop(Integer.parseInt((D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", (D2TxtFile.MISC
                     .searchColumns("code", item_type))
                     .get(statsToRead[x]))).get("*ID")),
-                    new int[]{Integer.parseInt(((D2TxtFile.MISC
-                            .searchColumns("code", item_type))
-                            .get(statsToRead[x].replaceFirst("stat",
-                                    "calc"))))}, 0));
+                    new int[]{ statValue }, 0));
         }
     }
 
@@ -1767,4 +1771,6 @@ public class D2Item implements Comparable, D2ItemInterface {
     public int getiCharLvl() {
         return iCharLvl;
     }
+
+    public String getItem_type() { return item_type; }
 }

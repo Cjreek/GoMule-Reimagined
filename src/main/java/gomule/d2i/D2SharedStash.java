@@ -109,7 +109,7 @@ public class D2SharedStash extends D2ItemListAdapter {
         }
 
         private static D2Item[][] constructPaneGrid(List<D2Item> items) {
-            D2Item[][] grid = new D2Item[10][10];
+            D2Item[][] grid = new D2Item[16][13];
             for (D2Item item : items) {
                 for (int i = item.get_col(); i < (int) item.get_col() + (int) item.get_width(); i++) {
                     for (int j = item.get_row(); j < (int) item.get_row() + (int) item.get_height(); j++) {
