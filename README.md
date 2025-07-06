@@ -7,6 +7,14 @@ It was modified to be compatible with the Diablo 2 Resurrected mod "Reimagined" 
 
 Get D2R Reimagined here: https://www.nexusmods.com/diablo2resurrected/mods/503
 
+## Download
+
+Go to the release page: https://github.com/Cjreek/GoMule-Reimagined/releases
+
+### Direct download links
+⮕ [2.1.2](https://github.com/Cjreek/GoMule-Reimagined/releases/download/gomule_reimagined_212/GoMule_Reimagined_2.1.2.zip)  
+⮕ [2.1.1](https://github.com/Cjreek/GoMule-Reimagined/releases/download/gomule_reimagined_211/GoMule_Reimagined_2.1.1.zip)  
+
 ## Installation
 
 1) Extract the contents of the .zip file.
