@@ -1313,7 +1313,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             D2Item lItem = (D2Item) iItems.get(pRow);
             switch (pCol) {
                 case 0:
-                    return new D2CellValue(lItem.getItemName(), lItem, iFileManager.getProject());
+                    return new D2CellValue(D2ItemRenderer.stripColorCodes(D2ItemRenderer.stripItemName(lItem.getItemName())), lItem, iFileManager.getProject());
                 case 1:
                     return new D2CellValue(getStringValue(lItem.getReqLvl()), lItem, iFileManager.getProject());
                 case 2:

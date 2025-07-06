@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class D2ItemRenderer {
 
-    private static String stripColorCodes(String text) {
+    public static String stripColorCodes(String text) {
         return text.replaceAll("ÿc.", "");
     }
 
@@ -29,7 +29,7 @@ public class D2ItemRenderer {
         return propString.append("</html>");
     }
 
-    private static String stripItemName(String itemName) {
+    public static String stripItemName(String itemName) {
         String result = itemName.replaceAll("\\n.*", "");
         result = result.replaceAll("\\*", "");
         return result;

@@ -159,8 +159,14 @@ public class D2Prop {
             //leave dispLoc as  = 1
         }
 
-        //Max Durability
-        if (pNum == 73) {
+        // Reimagined Fix:
+        if (pNum == 97) { // OSkill
+            funcN = 28;
+        }
+        else if (pNum == 387) { // OSkill display
+            funcN = -1;
+        }
+        else if (pNum == 73) { //Max Durability
             oString = "Maximum Durability";
             funcN = 1;
         } else if (pNum == 92) {
@@ -403,7 +409,7 @@ public class D2Prop {
                     } else if (oString.equals("%+d to Minimum Weapon Damage")) {
                         matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg-min"));
                     } else {
-                        return "Unknown property";
+                        return oString.replaceAll("%\\+d", "+" + Integer.toString(pVals[1]));
                     }
                 }
                 D2TxtFileItemProperties o = matchingPropsRecords.get(0);
@@ -488,16 +494,16 @@ public class D2Prop {
                                         + "Only");
 
             case (28):
-                return "+" + pVals[1] + " to "
-                        + D2Files.getInstance()
-                                .getTranslations()
-                                .getTranslation(D2TxtFile.SKILL_DESC
-                                        .searchColumns(
-                                                "skilldesc",
-                                                D2TxtFile.SKILLS
-                                                        .getRow(pVals[0])
-                                                        .get("skilldesc"))
-                                        .get("str name"));
+                if (pVals[0] < D2TxtFile.SKILLS.getRowSize()) {
+                    return "+" + pVals[1] + " to "
+                            + D2Files.getInstance()
+                            .getTranslations()
+                            .getTranslation(D2TxtFile.SKILL_DESC
+                                    .searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc"))
+                                    .get("str name"));
+                }
+                else
+                    return  "+" + pVals[1] + " to Unknown Skill";
 
             //UNOFFICIAL PROPERTIES
 
