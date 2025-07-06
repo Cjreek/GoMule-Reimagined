@@ -17,6 +17,7 @@ Go to the release page: https://github.com/Cjreek/GoMule-Reimagined/releases
 
 ## Installation
 
+0) You need to have the Java runtime installed on your PC!
 1) Extract the contents of the .zip file.
 2) Done
 
