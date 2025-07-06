@@ -5,7 +5,7 @@ It was modified to be compatible with the Diablo 2 Resurrected mod "Reimagined" 
 
 ![image](https://github.com/user-attachments/assets/3c53b5dd-4b99-45ba-9187-572866ed9963)
 
-Get D2R Reimagined here: https://www.nexusmods.com/diablo2resurrected/mods/34
+Get D2R Reimagined here: https://www.nexusmods.com/diablo2resurrected/mods/503
 
 ## Installation
 
