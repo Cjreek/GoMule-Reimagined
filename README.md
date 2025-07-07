@@ -42,37 +42,37 @@ If you have any questions or issues with this tool you can either post your issu
 This is addressed at developers or technically versed people who want to compile GoMule Reimagined for a different or a new release of the Reimagined Mod.
 Generally no actual code changes are necessary. Some files from the mod need to be copied over and then GoMule needs to be recompiled:
 
-1) copy all `.dc6` files from `/data/global/items/` into `resources/gfx/`
-2) copy following files from `/data/local/lng/strings/` into `/src/main/resources/d2Files/D2R_1.0/translations/`
-  - item-modifiers.json
-  - item-nameaffixes.json
-  - item-names.json
-  - item-runes.json
-  - monsters.json
-  - skills.json
-4) copy following files from `/data/global/excel/` into `d2111/`
-   - armor.txt
-   - automagic.txt
-   - charstats.txt
-   - gems.txt
-   - hireling.txt
-   - itemstatcost.txt
-   - itemtypes.txt
-   - levels.txt
-   - magicprefix.txt
-   - magicsuffix.txt
-   - misc.txt
-   - monstats.txt
-   - properties.txt
-   - runes.txt
-   - setitems.txt
-   - sets.txt
-   - skilldesc.txt
-   - skills.txt
-   - superuniques.txt
-   - treasureclassex.txt
-   - uniqueitems.txt
-   - weapons.txt
+1) Copy all `.dc6` files from `/data/global/items/` into `resources/gfx/`
+2) Copy following files from `/data/local/lng/strings/` into `/src/main/resources/d2Files/D2R_1.0/translations/`
+    - item-modifiers.json
+    - item-nameaffixes.json
+    - item-names.json
+    - item-runes.json
+    - monsters.json
+    - skills.json
+4) Copy following files from `/data/global/excel/` into `d2111/`
+    - armor.txt
+    - automagic.txt
+    - charstats.txt
+    - gems.txt
+    - hireling.txt
+    - itemstatcost.txt
+    - itemtypes.txt
+    - levels.txt
+    - magicprefix.txt
+    - magicsuffix.txt
+    - misc.txt
+    - monstats.txt
+    - properties.txt
+    - runes.txt
+    - setitems.txt
+    - sets.txt
+    - skilldesc.txt
+    - skills.txt
+    - superuniques.txt
+    - treasureclassex.txt
+    - uniqueitems.txt
+    - weapons.txt
 4) Open `build.gradle` and change the `archiveName` in the distribution task to match the version you want to build GoMule for:
 ```gradle
 task distribution(type: Zip) {
