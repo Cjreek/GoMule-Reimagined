@@ -36,3 +36,50 @@ It's still advised to make regular backups of your characters and GoMule stashes
 ## Help & Support
 
 If you have any questions or issues with this tool you can either post your issue here on github or contact @Cjreek on the Reimagined discord
+
+## Compiling for different/new versions of D2RR
+
+This is addressed at developers or technically versed people who want to compile GoMule Reimagined for a different or a new release of the Reimagined Mod.
+Generally no actual code changes are necessary. Some files from the mod need to be copied over and then GoMule needs to be recompiled:
+
+1) copy all `.dc6` files from `/data/global/items/` into `resources/gfx/`
+2) copy following files from `/data/local/lng/strings/` into `/src/main/resources/d2Files/D2R_1.0/translations/`
+  - item-modifiers.json
+  - item-nameaffixes.json
+  - item-names.json
+  - item-runes.json
+  - monsters.json
+  - skills.json
+4) copy following files from `/data/global/excel/` into `d2111/`
+   - armor.txt
+   - automagic.txt
+   - charstats.txt
+   - gems.txt
+   - hireling.txt
+   - itemstatcost.txt
+   - itemtypes.txt
+   - levels.txt
+   - magicprefix.txt
+   - magicsuffix.txt
+   - misc.txt
+   - monstats.txt
+   - properties.txt
+   - runes.txt
+   - setitems.txt
+   - sets.txt
+   - skilldesc.txt
+   - skills.txt
+   - superuniques.txt
+   - treasureclassex.txt
+   - uniqueitems.txt
+   - weapons.txt
+4) Open `build.gradle` and change the `archiveName` in the distribution task to match the version you want to build GoMule for:
+```gradle
+task distribution(type: Zip) {
+    from 'build/tmp/distribution/'
+    include 'GoMule/**'
+    archiveName 'GoMule_Reimagined_2.1.2.zip'
+}
+```
+5) Execute the `distribution` gradle task.
+6) An updated version of GoMule should be generated and placed in `/build/distributions/`
