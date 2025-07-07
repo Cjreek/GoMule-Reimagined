@@ -43,7 +43,7 @@ This is addressed at developers or technically versed people who want to compile
 Generally no actual code changes are necessary. Some files from the mod need to be copied over and then GoMule needs to be recompiled:
 
 1) Copy all `.dc6` files from `/data/global/items/` into `resources/gfx/`
-2) Copy following files from `/data/local/lng/strings/` into `/src/main/resources/d2Files/D2R_1.0/translations/`
+2) Copy following files from `/data/local/lng/strings/` into `src/main/resources/d2Files/D2R_1.0/translations/`
     - item-modifiers.json
     - item-nameaffixes.json
     - item-names.json
@@ -82,4 +82,4 @@ task distribution(type: Zip) {
 }
 ```
 5) Execute the `distribution` gradle task.
-6) An updated version of GoMule should be generated and placed in `/build/distributions/`
+6) An updated version of GoMule should be generated and placed in `build/distributions/`
